@@ -16,17 +16,31 @@ PrincipalComponentsAnalysis
 |CircleCI|  |TravisCI|  |AppVeyor|
 =========== =========== ===========
 
-An `ITK <http://itk.org>`_-based implementation of principal components analysis.
-A more detailed description can be found in the Insight Journal article::
+Overview
+--------
 
-  Bowers M., Younes L. "Principal Components Analysis of Scalar, Vector, and Mesh Vertex Data."
-    http://hdl.handle.net/10380/3386
-    http://www.insight-journal.org/browse/publication/878
-    August, 2013.
+An `ITK <http://itk.org>`_-based implementation of principal components analysis.
+
+For more information, see the `Insight Journal article <http://hdl.handle.net/10380/3386>`_::
+
+  Bowers M., Younes L.
+  Principal Components Analysis of Scalar, Vector, and Mesh Vertex Data
+  The Insight Journal. August. 2013.
+  http://hdl.handle.net/10380/3386
+  http://www.insight-journal.org/browse/publication/878
+
+Installation
+------------
 
 Since ITK 4.10.0, this module is available in the ITK source tree as a Remote
-module.  To enable it, set::
+module. To enable it, set::
 
   Module_PrincipalComponentsAnalysis:BOOL=ON
 
 in ITK's CMake build configuration.
+
+License
+-------
+
+This software is distributed under the Apache 2.0 license. Please see
+the *LICENSE* file for details.
