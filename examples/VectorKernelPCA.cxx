@@ -43,36 +43,36 @@ int main( int argc, char *argv[] )
   int pcaCount = atoi(argv[1]);
   double kernelSigma = atof(argv[2]);
 
-  typedef double                      PointDataType;
-  typedef itk::Array<PointDataType>   PointDataVectorType;
-  typedef PointDataVectorType         PixelType;
-  typedef itk::Vector<PointDataType>  OutPointDataVectorType;
-  typedef OutPointDataVectorType      OutPixelType;
+  using PointDataType = double;
+  using PointDataVectorType = itk::Array<PointDataType>;
+  using PixelType = PointDataVectorType;
+  using OutPointDataVectorType = itk::Vector<PointDataType>;
+  using OutPixelType = OutPointDataVectorType;
 
-  typedef double             CoordRep;
+  using CoordRep = double;
   const   unsigned int       Dimension = 3;
 
-//    typedef float              PCAResultsType;
-  typedef double             PCAResultsType;
+//    using PCAResultsType = float;
+  using PCAResultsType = double;
 
   // Declare the type of the input mesh
-  typedef itk::Mesh<PixelType,Dimension>    InMeshType;
-  typedef itk::Mesh<OutPixelType,Dimension> OutMeshType;
+  using InMeshType = itk::Mesh<PixelType,Dimension>;
+  using OutMeshType = itk::Mesh<OutPixelType,Dimension>;
 
   // Declare the type of the kernel function class
-  typedef itk::GaussianDistanceKernel<CoordRep> KernelType;
+  using KernelType = itk::GaussianDistanceKernel<CoordRep>;
 
   // Declare the type of the PCA calculator
-  typedef itk::VectorFieldPCA< PointDataType, PCAResultsType,
-                                PixelType, CoordRep, KernelType, InMeshType > PCACalculatorType;
+  using PCACalculatorType = itk::VectorFieldPCA< PointDataType, PCAResultsType,
+                                PixelType, CoordRep, KernelType, InMeshType >;
 
   // Here we recover the file names from the command line arguments
   const char* inMeshFile = argv[3];
   const char* outFileNameBase = argv[4];
 
   //  We can now instantiate the types of the reader/writer.
-  typedef itk::MeshFileReader< InMeshType >   ReaderType;
-  typedef itk::MeshFileWriter< OutMeshType >  WriterType;
+  using ReaderType = itk::MeshFileReader< InMeshType >;
+  using WriterType = itk::MeshFileWriter< OutMeshType >;
 
   // create readers/writers
   ReaderType::Pointer meshReader = ReaderType::New();
@@ -220,8 +220,8 @@ int main( int argc, char *argv[] )
   InMeshType::CellsContainerConstIterator itCellsEnd = cells->End();
   outMesh->GetCells()->Reserve( cells->Size() );
 
-  typedef OutMeshType::CellType::CellAutoPointer         CellAutoPointer;
-  typedef itk::TriangleCell< OutMeshType::CellType >     TriangleType;
+  using CellAutoPointer = OutMeshType::CellType::CellAutoPointer;
+  using TriangleType = itk::TriangleCell< OutMeshType::CellType >;
 
   while ( itCells != itCellsEnd )
     {
