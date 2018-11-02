@@ -40,8 +40,8 @@ int main( int argc, char *argv[] )
   if(argc < MIN_ARG_COUNT)
     return (showUsage(argv[0]));
 
-  int pcaCount = atoi(argv[1]);
-  double kernelSigma = atof(argv[2]);
+  int pcaCount = std::stoi(argv[1]);
+  double kernelSigma = std::stod(argv[2]);
 
   typedef double                      PointDataType;
   typedef itk::Array<PointDataType>   PointDataVectorType;
