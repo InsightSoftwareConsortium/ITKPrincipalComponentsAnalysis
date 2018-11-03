@@ -25,10 +25,10 @@
 
 int showUsage(const char* programName)
 {
-  vcl_cerr << "USAGE:  " << programName << " <pcaCount> <kernelSigma> " << vcl_endl;
-  vcl_cerr << "<vtk_mesh_file> <outputName> <vectorFieldSetFile>" << vcl_endl;
-  vcl_cerr << "\t\tpcaCount : number of principal components to calculate" << vcl_endl;
-  vcl_cerr << "\t\tkernelSigma : KernelSigma" << vcl_endl;
+  std::cerr << "USAGE:  " << programName << " <pcaCount> <kernelSigma> " << std::endl;
+  std::cerr << "<vtk_mesh_file> <outputName> <vectorFieldSetFile>" << std::endl;
+  std::cerr << "\t\tpcaCount : number of principal components to calculate" << std::endl;
+  std::cerr << "\t\tkernelSigma : KernelSigma" << std::endl;
   return EXIT_FAILURE;
 }
 
@@ -88,17 +88,17 @@ int main( int argc, char *argv[] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    vcl_cerr << "Error reading mesh file " << inMeshFile << vcl_endl;
-    vcl_cerr << excp << vcl_endl;
+    std::cerr << "Error reading mesh file " << inMeshFile << std::endl;
+    std::cerr << excp << std::endl;
     }
 
   // get the objects
   InMeshType::Pointer mesh = meshReader->GetOutput();
 
-  vcl_cout << "Vertex Count:  " <<
-      mesh->GetNumberOfPoints() << vcl_endl;
-  vcl_cout << "Cell Count:  " <<
-      mesh->GetNumberOfCells() << vcl_endl;
+  std::cout << "Vertex Count:  " <<
+      mesh->GetNumberOfPoints() << std::endl;
+  std::cout << "Cell Count:  " <<
+      mesh->GetNumberOfCells() << std::endl;
 
   const char* vectorFieldName;
   PCACalculatorType::VectorFieldType vectorField;
@@ -127,8 +127,8 @@ int main( int argc, char *argv[] )
       }
     catch( itk::ExceptionObject & excp )
       {
-      vcl_cerr << "Error reading mesh field file " << vectorFieldName << vcl_endl;
-      vcl_cerr << excp << vcl_endl;
+      std::cerr << "Error reading mesh field file " << vectorFieldName << std::endl;
+      std::cerr << excp << std::endl;
       }
 
     // get the objects
@@ -146,9 +146,9 @@ int main( int argc, char *argv[] )
         }
       if (vectorFieldCount != meshWithField->GetNumberOfPoints())
         {
-        vcl_cerr << "Vector field count ("  << vectorFieldCount <<
+        std::cerr << "Vector field count ("  << vectorFieldCount <<
                     ") doesn't match mesh vertext count (" <<
-                    meshWithField->GetNumberOfPoints() << ")." << vcl_endl;
+                    meshWithField->GetNumberOfPoints() << ")." << std::endl;
         exit (EXIT_FAILURE);
         }
       vectorField.set_size(vectorFieldCount, vectorFieldDimension);
@@ -158,9 +158,9 @@ int main( int argc, char *argv[] )
       if (vectorFieldDimension != vectorField.cols() ||
                                 vectorFieldCount != vectorField.rows())
         {
-        vcl_cerr << "Unexpected dimensions in vector field file "  << vectorFieldName << vcl_endl;
-        vcl_cerr << "\tExpected "  << vectorFieldCount << " x " << vectorFieldDimension;
-        vcl_cerr << "\t, got "  << vectorField.rows() << " x " << vectorField.cols() << vcl_endl;
+        std::cerr << "Unexpected dimensions in vector field file "  << vectorFieldName << std::endl;
+        std::cerr << "\tExpected "  << vectorFieldCount << " x " << vectorFieldDimension;
+        std::cerr << "\t, got "  << vectorField.rows() << " x " << vectorField.cols() << std::endl;
         exit(1);
         }
       }
@@ -196,7 +196,7 @@ int main( int argc, char *argv[] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    vcl_cerr << excp << vcl_endl;
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -266,8 +266,8 @@ int main( int argc, char *argv[] )
   //  The name of the file to be read or written is passed with the
   //  SetFileName() method.
   char outFileName[2048];
-  vcl_strcpy(outFileName, outFileNameBase);
-  vcl_strcat(outFileName, "Ave.vtk");
+  std::strcpy(outFileName, outFileNameBase);
+  std::strcat(outFileName, "Ave.vtk");
 
   meshWriter->SetFileName(outFileName);
   meshWriter->SetInput(outMesh);
@@ -278,7 +278,7 @@ int main( int argc, char *argv[] )
     }
   catch( itk::ExceptionObject & excp )
     {
-    vcl_cerr << excp << vcl_endl;
+    std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -298,12 +298,12 @@ int main( int argc, char *argv[] )
       }
     //  The name of the file to be read or written is passed with the
     //  SetFileName() method.
-    vcl_strcpy(outFileName, outFileNameBase);
-    vcl_strcat(outFileName, "Basis");
+    std::strcpy(outFileName, outFileNameBase);
+    std::strcat(outFileName, "Basis");
     char fileCount[8];
     sprintf(fileCount, "%d", j + 1);
-    vcl_strcat(outFileName, fileCount);
-    vcl_strcat(outFileName, ".vtk");
+    std::strcat(outFileName, fileCount);
+    std::strcat(outFileName, ".vtk");
 
     meshWriter->SetFileName(outFileName);
     meshWriter->SetInput(outMesh);
@@ -314,7 +314,7 @@ int main( int argc, char *argv[] )
       }
     catch( itk::ExceptionObject & excp )
       {
-      vcl_cerr << excp << vcl_endl;
+      std::cerr << excp << std::endl;
       return EXIT_FAILURE;
       }
     }
