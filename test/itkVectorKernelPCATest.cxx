@@ -29,7 +29,7 @@ int ParseVectorFields( std::vector< std::string > vectorFieldFilenames, typename
 {
   int testStatus = EXIT_SUCCESS;
 
-  typedef itk::MeshFileReader< TMesh > ReaderType;
+  using ReaderType = itk::MeshFileReader< TMesh >;
   typename ReaderType::Pointer meshReader = ReaderType::New();
 
   unsigned int fieldSetCount = vectorFieldFilenames.size();
@@ -116,25 +116,25 @@ int itkVectorKernelPCATest( int argc, char *argv[] )
 
   const unsigned int Dimension = 3;
 
-  typedef double                      PointDataType;
-  typedef itk::Array< PointDataType > PointDataVectorType;
-  typedef PointDataVectorType         PixelType;
-  typedef double                      CoordRep;
+  using PointDataType = double;
+  using PointDataVectorType = itk::Array< PointDataType >;
+  using PixelType = PointDataVectorType;
+  using CoordRep = double;
 
-  typedef double                      PCAResultsType;
+  using PCAResultsType = double;
 
   // Declare the type of the input mesh
-  typedef itk::Mesh< PixelType, Dimension > MeshType;
+  using MeshType = itk::Mesh< PixelType, Dimension >;
 
   // Declare the type of the kernel function class
-  typedef itk::GaussianDistanceKernel< CoordRep > KernelType;
+  using KernelType = itk::GaussianDistanceKernel< CoordRep >;
 
   // Declare the type of the PCA calculator
-  typedef itk::VectorFieldPCA< PointDataType, PCAResultsType, PixelType,
-    CoordRep, KernelType, MeshType > PCACalculatorType;
+  using PCACalculatorType = itk::VectorFieldPCA< PointDataType, PCAResultsType, PixelType,
+    CoordRep, KernelType, MeshType >;
 
   // Instantiate the reader
-  typedef itk::MeshFileReader< MeshType > ReaderType;
+  using ReaderType = itk::MeshFileReader< MeshType >;
   ReaderType::Pointer meshReader = ReaderType::New();
 
   meshReader->SetFileName( argv[1] );
