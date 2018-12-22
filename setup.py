@@ -20,11 +20,11 @@ setup(
     package_dir={'itk': 'itk'},
     download_url=r'https://github.com/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis',
     description=r'ITK classes for the analysis of the principal components of data sets, optionally point data associated with the vertices of a mesh.',
-    long_description='ITKPrincipalComponentsAnalysis provides an'
-                     'implementation of standard principal components analysis'
+    long_description='itk-principalcomponentsanalysis provides an '
+                     'implementation of standard principal components analysis '
                      'algorithms for use on scalar or vector data sets.\n'
                      'Please refer to:\n'
-                     'M. Bowers and L. Younes, “Principal Components Analysis of Scalar, Vector, and Mesh Vertex Data.”,'
+                     'M. Bowers and L. Younes, "Principal Components Analysis of Scalar, Vector, and Mesh Vertex Data.", '
                      'Insight Journal, January-December 2012, http://hdl.handle.net/10380/3386',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
