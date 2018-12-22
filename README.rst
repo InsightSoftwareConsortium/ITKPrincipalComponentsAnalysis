@@ -1,5 +1,5 @@
-PrincipalComponentsAnalysis
-===========================
+ITKPrincipalComponentsAnalysis
+==============================
 
 .. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis.svg?style=shield
     :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis
