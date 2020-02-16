@@ -1,1 +1,1 @@
-ADD_SUBDIRECTORY(Report001)
+add_subdirectory(Report001)
