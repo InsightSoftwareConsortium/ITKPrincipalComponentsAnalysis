@@ -1,7 +1,7 @@
 itk_module_test()
 
-SET(PCA PrincipalComponentsAnalysis)
-SET(${PCA}Tests
+set(PCA PrincipalComponentsAnalysis)
+set(${PCA}Tests
   itkVectorKernelPCATest.cxx
   )
 

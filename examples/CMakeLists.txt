@@ -7,10 +7,10 @@
 #######################
 #######################
 
-FIND_PACKAGE(ITK REQUIRED COMPONENTS PrincipalComponentsAnalysis)
+find_package(ITK REQUIRED COMPONENTS PrincipalComponentsAnalysis)
 
 include_directories( ${PrincipalComponentsAnalysis_SOURCE_DIR}/Source )
 
-ADD_EXECUTABLE(VectorKernelPCA VectorKernelPCA.cxx )
-TARGET_LINK_LIBRARIES(VectorKernelPCA ${ITK_LIBRARIES})
+add_executable(VectorKernelPCA VectorKernelPCA.cxx )
+target_link_libraries(VectorKernelPCA ${ITK_LIBRARIES})
 

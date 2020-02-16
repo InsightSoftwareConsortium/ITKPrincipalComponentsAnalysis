@@ -1,19 +1,19 @@
-PROJECT(Report001)
+project(Report001)
 
-FIND_PACKAGE(LATEX)
+find_package(LATEX)
 
-IF(NOT PDFLATEX_COMPILER)
-  MESSAGE("pdflatex compiler was not found. Please pass to advanced mode and provide its full path")
-ELSE(NOT PDFLATEX_COMPILER)
+if(NOT PDFLATEX_COMPILER)
+  message("pdflatex compiler was not found. Please pass to advanced mode and provide its full path")
+else(NOT PDFLATEX_COMPILER)
 
 
-FIND_PROGRAM(FIG2DEV_EXECUTABLE NAMES fig2dev)
+find_program(FIG2DEV_EXECUTABLE NAMES fig2dev)
 
 
 #
 # These are source files needed for the report generation.
 #
-SET(REPORT_SRCS
+set(REPORT_SRCS
   algorithmic.sty
   algorithm.sty
   amssymb.sty
@@ -35,33 +35,33 @@ SET(REPORT_SRCS
 # that copies the file from the source directory to the binary
 # directory where the pdf will be generated.
 #
-FOREACH(SOURCE_FILE ${REPORT_SRCS})
-   ADD_CUSTOM_COMMAND(
+foreach(SOURCE_FILE ${REPORT_SRCS})
+   add_custom_command(
      OUTPUT   ${Report001_BINARY_DIR}/${SOURCE_FILE}
      DEPENDS  ${Report001_SOURCE_DIR}/${SOURCE_FILE}
      COMMAND ${CMAKE_COMMAND} -E copy_if_different 
         ${Report001_SOURCE_DIR}/${SOURCE_FILE} 
         ${Report001_BINARY_DIR}/${SOURCE_FILE}
     )
-   SET(COPY_RESULTS ${COPY_RESULTS} ${Report001_BINARY_DIR}/${SOURCE_FILE})
-ENDFOREACH(SOURCE_FILE ${REPORT_SRCS})
+   set(COPY_RESULTS ${COPY_RESULTS} ${Report001_BINARY_DIR}/${SOURCE_FILE})
+endforeach(SOURCE_FILE ${REPORT_SRCS})
 
-FILE(GLOB XFIG_FIGURES *.fig)
+file(GLOB XFIG_FIGURES *.fig)
 
-FOREACH(image ${XFIG_FIGURES})
-  GET_FILENAME_COMPONENT(Imagebase ${image} NAME)
-  GET_FILENAME_COMPONENT(ImageBase ${Imagebase} NAME_WE)
-  ADD_CUSTOM_COMMAND( 
+foreach(image ${XFIG_FIGURES})
+  get_filename_component(Imagebase ${image} NAME)
+  get_filename_component(ImageBase ${Imagebase} NAME_WE)
+  add_custom_command( 
     OUTPUT    ${PROJECT_BINARY_DIR}/${ImageBase}.pdf
     DEPENDS   ${PROJECT_BINARY_DIR}/${ImageBase}.fig
     COMMAND   ${FIG2DEV_EXECUTABLE} 
       -L pdf ${PROJECT_BINARY_DIR}/${ImageBase}.fig ${PROJECT_BINARY_DIR}/${ImageBase}.pdf
     )
-  SET(EPS_DEPS ${EPS_DEPS} ${PROJECT_BINARY_DIR}/${ImageBase}.pdf)
-ENDFOREACH(image)
+  set(EPS_DEPS ${EPS_DEPS} ${PROJECT_BINARY_DIR}/${ImageBase}.pdf)
+endforeach(image)
 
 
-SET(REPORT_ELEMENTS 
+set(REPORT_ELEMENTS 
   ${EPS_DEPS}
   )
 
@@ -70,7 +70,7 @@ SET(REPORT_ELEMENTS
 # This target depends on the list of copied files created
 # with the custom command above and the Plots target.
 #
-ADD_CUSTOM_TARGET(ReportIJ ALL 
+add_custom_target(ReportIJ ALL 
    COMMAND ${PDFLATEX_COMPILER} 
         ${Report001_SOURCE_DIR}/PrincipalComponentsAnalysis.tex 
         -output-directory ${Report001_BINARY_DIR}
@@ -81,4 +81,4 @@ ADD_CUSTOM_TARGET(ReportIJ ALL
    WORKING_DIRECTORY ${Report001_BINARY_DIR}
    )
  
-ENDIF(NOT PDFLATEX_COMPILER)
+endif(NOT PDFLATEX_COMPILER)
