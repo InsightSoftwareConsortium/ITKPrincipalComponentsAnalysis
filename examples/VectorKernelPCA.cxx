@@ -40,7 +40,9 @@ main(int argc, char * argv[])
 
 #define MIN_ARG_COUNT 6
   if (argc < MIN_ARG_COUNT)
+  {
     return (showUsage(argv[0]));
+  }
 
   int    pcaCount = std::stoi(argv[1]);
   double kernelSigma = std::stod(argv[2]);
@@ -237,7 +239,9 @@ main(int argc, char * argv[])
   sprintf(fName, "%s_BasisVectors.txt", outFileNameBase);
   debugOut.open(fName);
   for (unsigned int j = 0; j < pcaCalc->GetComponentCount(); j++)
+  {
     (pcaCalc->GetBasisVectors()->GetElement(j)).print(debugOut);
+  }
 
   debugOut.close();
 
