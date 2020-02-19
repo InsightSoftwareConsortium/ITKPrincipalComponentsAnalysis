@@ -23,7 +23,8 @@
 #include "itkTriangleCell.h"
 #include "vnl/vnl_vector.h"
 
-int showUsage(const char* programName)
+int
+showUsage(const char * programName)
 {
   std::cerr << "USAGE:  " << programName << " <pcaCount> <kernelSigma> " << std::endl;
   std::cerr << "<vtk_mesh_file> <outputName> <vectorFieldSetFile>" << std::endl;
@@ -32,15 +33,16 @@ int showUsage(const char* programName)
   return EXIT_FAILURE;
 }
 
-int main( int argc, char *argv[] )
+int
+main(int argc, char * argv[])
 {
-// Required arguments
+  // Required arguments
 
 #define MIN_ARG_COUNT 6
-  if(argc < MIN_ARG_COUNT)
+  if (argc < MIN_ARG_COUNT)
     return (showUsage(argv[0]));
 
-  int pcaCount = std::stoi(argv[1]);
+  int    pcaCount = std::stoi(argv[1]);
   double kernelSigma = std::stod(argv[2]);
 
   using PointDataType = double;
@@ -50,29 +52,29 @@ int main( int argc, char *argv[] )
   using OutPixelType = OutPointDataVectorType;
 
   using CoordRep = double;
-  const   unsigned int       Dimension = 3;
+  const unsigned int Dimension = 3;
 
-//    using PCAResultsType = float;
+  //    using PCAResultsType = float;
   using PCAResultsType = double;
 
   // Declare the type of the input mesh
-  using InMeshType = itk::Mesh<PixelType,Dimension>;
-  using OutMeshType = itk::Mesh<OutPixelType,Dimension>;
+  using InMeshType = itk::Mesh<PixelType, Dimension>;
+  using OutMeshType = itk::Mesh<OutPixelType, Dimension>;
 
   // Declare the type of the kernel function class
   using KernelType = itk::GaussianDistanceKernel<CoordRep>;
 
   // Declare the type of the PCA calculator
-  using PCACalculatorType = itk::VectorFieldPCA< PointDataType, PCAResultsType,
-                                PixelType, CoordRep, KernelType, InMeshType >;
+  using PCACalculatorType =
+    itk::VectorFieldPCA<PointDataType, PCAResultsType, PixelType, CoordRep, KernelType, InMeshType>;
 
   // Here we recover the file names from the command line arguments
-  const char* inMeshFile = argv[3];
-  const char* outFileNameBase = argv[4];
+  const char * inMeshFile = argv[3];
+  const char * outFileNameBase = argv[4];
 
   //  We can now instantiate the types of the reader/writer.
-  using ReaderType = itk::MeshFileReader< InMeshType >;
-  using WriterType = itk::MeshFileWriter< OutMeshType >;
+  using ReaderType = itk::MeshFileReader<InMeshType>;
+  using WriterType = itk::MeshFileWriter<OutMeshType>;
 
   // create readers/writers
   ReaderType::Pointer meshReader = ReaderType::New();
@@ -80,34 +82,31 @@ int main( int argc, char *argv[] )
 
   //  The name of the file to be read or written is passed with the
   //  SetFileName() method.
-  meshReader->SetFileName( inMeshFile  );
+  meshReader->SetFileName(inMeshFile);
 
   try
-    {
+  {
     meshReader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << "Error reading mesh file " << inMeshFile << std::endl;
     std::cerr << excp << std::endl;
-    }
+  }
 
   // get the objects
   InMeshType::Pointer mesh = meshReader->GetOutput();
 
-  std::cout << "Vertex Count:  " <<
-      mesh->GetNumberOfPoints() << std::endl;
-  std::cout << "Cell Count:  " <<
-      mesh->GetNumberOfCells() << std::endl;
+  std::cout << "Vertex Count:  " << mesh->GetNumberOfPoints() << std::endl;
+  std::cout << "Cell Count:  " << mesh->GetNumberOfCells() << std::endl;
 
-  const char* vectorFieldName;
+  const char *                       vectorFieldName;
   PCACalculatorType::VectorFieldType vectorField;
 
   // how many vector field sets?
   unsigned int fieldSetCount = argc - (MIN_ARG_COUNT - 1);
 
-  PCACalculatorType::VectorFieldSetTypePointer vectorFieldSet =
-      PCACalculatorType::VectorFieldSetType::New();
+  PCACalculatorType::VectorFieldSetTypePointer vectorFieldSet = PCACalculatorType::VectorFieldSetType::New();
 
   vectorFieldSet->Reserve(fieldSetCount);
 
@@ -115,124 +114,122 @@ int main( int argc, char *argv[] )
   unsigned int vectorFieldCount = 0;
   unsigned int setIx = 0;
   for (int i = MIN_ARG_COUNT - 1; i < argc; i++)
-    {
+  {
     vectorFieldName = argv[i];
     //  The name of the file to be read or written is passed with the
     //  SetFileName() method.
-    meshReader->SetFileName( vectorFieldName  );
+    meshReader->SetFileName(vectorFieldName);
 
     try
-      {
+    {
       meshReader->Update();
-      }
-    catch( itk::ExceptionObject & excp )
-      {
+    }
+    catch (itk::ExceptionObject & excp)
+    {
       std::cerr << "Error reading mesh field file " << vectorFieldName << std::endl;
       std::cerr << excp << std::endl;
-      }
+    }
 
     // get the objects
-    InMeshType::Pointer meshWithField = meshReader->GetOutput();
+    InMeshType::Pointer                   meshWithField = meshReader->GetOutput();
     InMeshType::PointDataContainerPointer pointData = meshWithField->GetPointData();
 
     // should know vector field dimensions now
     if (setIx == 0)
-      {
+    {
       vectorFieldCount = pointData->Size();
       if (vectorFieldCount)
-        {
+      {
         PixelType oneDataSetVal = pointData->GetElement(0);
         vectorFieldDimension = oneDataSetVal.size();
-        }
+      }
       if (vectorFieldCount != meshWithField->GetNumberOfPoints())
-        {
-        std::cerr << "Vector field count ("  << vectorFieldCount <<
-                    ") doesn't match mesh vertext count (" <<
-                    meshWithField->GetNumberOfPoints() << ")." << std::endl;
-        exit (EXIT_FAILURE);
-        }
-      vectorField.set_size(vectorFieldCount, vectorFieldDimension);
-      }
-    else
       {
-      if (vectorFieldDimension != vectorField.cols() ||
-                                vectorFieldCount != vectorField.rows())
-        {
-        std::cerr << "Unexpected dimensions in vector field file "  << vectorFieldName << std::endl;
-        std::cerr << "\tExpected "  << vectorFieldCount << " x " << vectorFieldDimension;
-        std::cerr << "\t, got "  << vectorField.rows() << " x " << vectorField.cols() << std::endl;
-        exit(1);
-        }
+        std::cerr << "Vector field count (" << vectorFieldCount << ") doesn't match mesh vertext count ("
+                  << meshWithField->GetNumberOfPoints() << ")." << std::endl;
+        exit(EXIT_FAILURE);
       }
+      vectorField.set_size(vectorFieldCount, vectorFieldDimension);
+    }
+    else
+    {
+      if (vectorFieldDimension != vectorField.cols() || vectorFieldCount != vectorField.rows())
+      {
+        std::cerr << "Unexpected dimensions in vector field file " << vectorFieldName << std::endl;
+        std::cerr << "\tExpected " << vectorFieldCount << " x " << vectorFieldDimension;
+        std::cerr << "\t, got " << vectorField.rows() << " x " << vectorField.cols() << std::endl;
+        exit(1);
+      }
+    }
 
     for (unsigned int k = 0; k < pointData->Size(); k++)
-      {
+    {
       PixelType oneDataSetVal = pointData->GetElement(k);
       vectorField.set_row(k, oneDataSetVal);
-      }
+    }
 
     vectorFieldSet->SetElement(setIx++, vectorField);
-    }
+  }
 
   PCACalculatorType::Pointer pcaCalc = PCACalculatorType::New();
 
   // set user variables
   KernelType::Pointer distKernel = KernelType::New();
-  distKernel->SetKernelSigma( kernelSigma );
-  pcaCalc->SetKernelFunction( distKernel );
-  pcaCalc->SetComponentCount( pcaCount );
+  distKernel->SetKernelSigma(kernelSigma);
+  pcaCalc->SetKernelFunction(distKernel);
+  pcaCalc->SetComponentCount(pcaCount);
 
   //
   //  Now connect the input and verify that it runs fine.
   //
-  pcaCalc->SetPointSet( mesh );
+  pcaCalc->SetPointSet(mesh);
 
   // set vector fields
-  pcaCalc->SetVectorFieldSet( vectorFieldSet );
+  pcaCalc->SetVectorFieldSet(vectorFieldSet);
 
   try
-    {
+  {
     pcaCalc->Compute();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // copy the mesh for output so the point data is of type VECTORS
   // instead of COLOR_SCALARS
-  OutMeshType::Pointer outMesh = OutMeshType::New();
-  InMeshType::PointsContainerPointer points = mesh->GetPoints( );
+  OutMeshType::Pointer                     outMesh = OutMeshType::New();
+  InMeshType::PointsContainerPointer       points = mesh->GetPoints();
   InMeshType::PointsContainerConstIterator it = points->Begin();
   InMeshType::PointsContainerConstIterator itEnd = points->End();
-  unsigned int ixPt = 0;
-  while ( it != itEnd )
-    {
+  unsigned int                             ixPt = 0;
+  while (it != itEnd)
+  {
     InMeshType::PointType point = it.Value();
-    outMesh->SetPoint( ixPt++, point );
+    outMesh->SetPoint(ixPt++, point);
     it++;
-    }
+  }
 
   ixPt = 0;
-  InMeshType::CellsContainerPointer cells = mesh->GetCells( );
+  InMeshType::CellsContainerPointer       cells = mesh->GetCells();
   InMeshType::CellsContainerConstIterator itCells = cells->Begin();
   InMeshType::CellsContainerConstIterator itCellsEnd = cells->End();
-  outMesh->GetCells()->Reserve( cells->Size() );
+  outMesh->GetCells()->Reserve(cells->Size());
 
   using CellAutoPointer = OutMeshType::CellType::CellAutoPointer;
-  using TriangleType = itk::TriangleCell< OutMeshType::CellType >;
+  using TriangleType = itk::TriangleCell<OutMeshType::CellType>;
 
-  while ( itCells != itCellsEnd )
-    {
+  while (itCells != itCellsEnd)
+  {
     CellAutoPointer outCell;
-    outCell.TakeOwnership( new TriangleType );
-    outCell->SetPointIds( itCells.Value()->PointIdsBegin(), itCells.Value()->PointIdsEnd() );
-    outMesh->SetCell( ixPt++, outCell );
+    outCell.TakeOwnership(new TriangleType);
+    outCell->SetPointIds(itCells.Value()->PointIdsBegin(), itCells.Value()->PointIdsEnd());
+    outMesh->SetCell(ixPt++, outCell);
     itCells++;
-    }
+  }
 
-  char fName[1024];
+  char          fName[1024];
   std::ofstream debugOut;
   debugOut.precision(15);
 
@@ -258,10 +255,10 @@ int main( int argc, char *argv[] )
 
   PixelType oneAverage;
   for (unsigned int k = 0; k < averages.rows(); k++)
-    {
+  {
     oneAverage = averages.get_row(k);
     mesh->SetPointData(k, oneAverage);
-    }
+  }
 
   //  The name of the file to be read or written is passed with the
   //  SetFileName() method.
@@ -273,29 +270,29 @@ int main( int argc, char *argv[] )
   meshWriter->SetInput(outMesh);
 
   try
-    {
+  {
     meshWriter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
+  }
+  catch (itk::ExceptionObject & excp)
+  {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   // set the basis functions
   for (unsigned int j = 0; j < pcaCalc->GetComponentCount(); j++)
-    {
+  {
     PCACalculatorType::MatrixType basisFunction = pcaCalc->GetBasisVectors()->GetElement(j);
-    PixelType oneFunctionVal;
-    OutPixelType oneVectFunctionVal;
+    PixelType                     oneFunctionVal;
+    OutPixelType                  oneVectFunctionVal;
     for (unsigned int k = 0; k < basisFunction.rows(); k++)
-      {
+    {
       oneFunctionVal = basisFunction.get_row(k);
       oneVectFunctionVal[0] = oneFunctionVal[0];
       oneVectFunctionVal[1] = oneFunctionVal[1];
       oneVectFunctionVal[2] = oneFunctionVal[2];
       outMesh->SetPointData(k, oneVectFunctionVal);
-      }
+    }
     //  The name of the file to be read or written is passed with the
     //  SetFileName() method.
     std::strcpy(outFileName, outFileNameBase);
@@ -309,15 +306,15 @@ int main( int argc, char *argv[] )
     meshWriter->SetInput(outMesh);
 
     try
-      {
+    {
       meshWriter->Update();
-      }
-    catch( itk::ExceptionObject & excp )
-      {
+    }
+    catch (itk::ExceptionObject & excp)
+    {
       std::cerr << excp << std::endl;
       return EXIT_FAILURE;
-      }
     }
+  }
 
   return EXIT_SUCCESS;
 }

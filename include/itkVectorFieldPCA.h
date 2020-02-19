@@ -51,7 +51,7 @@ namespace itk
  * \ingroup PrincipalComponentsAnalysis
  */
 
-template< typename TRealValueType = double >
+template <typename TRealValueType = double>
 class ITK_TEMPLATE_EXPORT GaussianDistanceKernel : public KernelFunctionBase<TRealValueType>
 {
 public:
@@ -68,39 +68,46 @@ public:
   itkNewMacro(Self);
 
   /**
-  * \brief Set and get the Kernel sigma.
-  */
-  void SetKernelSigma( double s )
-    { m_KernelSigma = s;
-      m_OneOverMinusTwoSigmaSqr = -1.0 / (2.0 * s * s); }
-  itkGetMacro( KernelSigma, double );
+   * \brief Set and get the Kernel sigma.
+   */
+  void
+  SetKernelSigma(double s)
+  {
+    m_KernelSigma = s;
+    m_OneOverMinusTwoSigmaSqr = -1.0 / (2.0 * s * s);
+  }
+  itkGetMacro(KernelSigma, double);
 
   /**
-  * \brief Evaluate the function. Input is the squared distance
-  */
-  inline TRealValueType Evaluate (const TRealValueType& u) const override
-    { return ( std::exp( u * m_OneOverMinusTwoSigmaSqr )); }
+   * \brief Evaluate the function. Input is the squared distance
+   */
+  inline TRealValueType
+  Evaluate(const TRealValueType & u) const override
+  {
+    return (std::exp(u * m_OneOverMinusTwoSigmaSqr));
+  }
 
 protected:
   GaussianDistanceKernel() {}
   ~GaussianDistanceKernel() override {}
-  void PrintSelf(std::ostream& os, Indent indent) const override
-    { Superclass::PrintSelf( os, indent ); }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override
+  {
+    Superclass::PrintSelf(os, indent);
+  }
 
 private:
-  double                    m_KernelSigma;
-  double                    m_OneOverMinusTwoSigmaSqr;
-
+  double m_KernelSigma;
+  double m_OneOverMinusTwoSigmaSqr;
 };
 
-template <
-    typename TVectorFieldElementType,
-    typename TPCType,
-    typename TPointSetPixelType = float,
-    typename TPointSetCoordRepType = float,
-    typename KernelFunctionType = KernelFunctionBase<TPointSetCoordRepType>,
-    class    TPointSetType = PointSet<TPointSetPixelType, 3, DefaultStaticMeshTraits< TPointSetPixelType, 3, 3, TPointSetCoordRepType > >
-  >
+template <typename TVectorFieldElementType,
+          typename TPCType,
+          typename TPointSetPixelType = float,
+          typename TPointSetCoordRepType = float,
+          typename KernelFunctionType = KernelFunctionBase<TPointSetCoordRepType>,
+          class TPointSetType =
+            PointSet<TPointSetPixelType, 3, DefaultStaticMeshTraits<TPointSetPixelType, 3, 3, TPointSetCoordRepType>>>
 class ITK_TEMPLATE_EXPORT VectorFieldPCA : public Object
 {
 public:
@@ -135,78 +142,81 @@ public:
   using InputPointSetConstPointer = typename InputPointSetType::ConstPointer;
 
   /**
-  * \brief Input PointSet dimension
-  */
-  itkStaticConstMacro(InputMeshDimension, unsigned int,
-                      TPointSetType::PointDimension);
+   * \brief Input PointSet dimension
+   */
+  itkStaticConstMacro(InputMeshDimension, unsigned int, TPointSetType::PointDimension);
 
   /** type for the vector fields. */
-  using VectorFieldType = vnl_matrix< TVectorFieldElementType >;
-  using VectorFieldSetType = VectorContainer< unsigned int, VectorFieldType >;
+  using VectorFieldType = vnl_matrix<TVectorFieldElementType>;
+  using VectorFieldSetType = VectorContainer<unsigned int, VectorFieldType>;
 
   using VectorFieldSetTypePointer = typename VectorFieldSetType::Pointer;
   using VectorFieldSetTypeConstPointer = typename VectorFieldSetType::ConstPointer;
 
   /** types for the output. */
-  using MatrixType = vnl_matrix< TPCType >;
-  using VectorType = vnl_vector< TPCType >;
+  using MatrixType = vnl_matrix<TPCType>;
+  using VectorType = vnl_vector<TPCType>;
 
-  using BasisSetType = VectorContainer< unsigned int, MatrixType >;
-  using ResSetType = VectorContainer< unsigned int, VectorType >;
+  using BasisSetType = VectorContainer<unsigned int, MatrixType>;
+  using ResSetType = VectorContainer<unsigned int, VectorType>;
 
   using BasisSetTypePointer = typename BasisSetType::Pointer;
   using KernelFunctionPointer = typename KernelFunctionType::Pointer;
 
   /**
-  * \brief Set and get the input point set.
-  */
+   * \brief Set and get the input point set.
+   */
   itkSetMacro(PointSet, InputPointSetPointer);
   itkGetMacro(PointSet, InputPointSetPointer);
 
   /**
-  * \brief Set and get the vector fields for the analysis.
-  */
+   * \brief Set and get the vector fields for the analysis.
+   */
   itkSetMacro(VectorFieldSet, VectorFieldSetTypePointer);
   itkGetMacro(VectorFieldSet, VectorFieldSetTypePointer);
 
   /**
-  * \brief Set and get the PCA count.
-  */
-  itkSetMacro( ComponentCount, unsigned int );
-  itkGetMacro( ComponentCount, unsigned int );
+   * \brief Set and get the PCA count.
+   */
+  itkSetMacro(ComponentCount, unsigned int);
+  itkGetMacro(ComponentCount, unsigned int);
 
   /**
-  * \brief Set pointer to the Kernel object.
-  */
-  itkSetMacro( KernelFunction, KernelFunctionPointer );
+   * \brief Set pointer to the Kernel object.
+   */
+  itkSetMacro(KernelFunction, KernelFunctionPointer);
 
   /**
   * \brief Compute the PCA decomposition of the input point set.
       If a Kernel and a Kernel Sigma are set ,
       the calculator will perform Kernel PCA.
   */
-  void Compute(void);
+  void
+  Compute(void);
 
   /**
-  * \brief Return the results.
-  */
+   * \brief Return the results.
+   */
   itkGetConstReferenceMacro(AveVectorField, MatrixType);
   itkGetConstReferenceMacro(PCAEigenValues, VectorType);
   itkGetConstObjectMacro(BasisVectors, BasisSetType);
 
 protected:
   VectorFieldPCA();
-  ~VectorFieldPCA() override {};
-  void PrintSelf(std::ostream& os, Indent indent) const override;
+  ~VectorFieldPCA() override{};
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Kernel PCA. */
-  void KernelPCA();
+  void
+  KernelPCA();
 
   /** Compute Momentum SCP. */
-  void ComputeMomentumSCP();
+  void
+  ComputeMomentumSCP();
 
 private:
-  VectorType                m_PCAEigenValues;
+  VectorType m_PCAEigenValues;
 
   BasisSetTypePointer       m_BasisVectors;
   VectorFieldSetTypePointer m_VectorFieldSet;
@@ -214,24 +224,23 @@ private:
   KernelFunctionPointer     m_KernelFunction;
 
   // Problem dimensions
-  unsigned int              m_ComponentCount;
-  unsigned int              m_SetSize;
-  unsigned int              m_VectorDimCount;
-  unsigned int              m_VertexCount;
-  unsigned int              m_PointDim;
+  unsigned int m_ComponentCount;
+  unsigned int m_SetSize;
+  unsigned int m_VectorDimCount;
+  unsigned int m_VertexCount;
+  unsigned int m_PointDim;
 
-  MatrixType                m_V0;
-  MatrixType                m_AveVectorField;
-  MatrixType                m_K;
+  MatrixType m_V0;
+  MatrixType m_AveVectorField;
+  MatrixType m_K;
 
-  bool                      m_PCACalculated;
-
+  bool m_PCACalculated;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorFieldPCA.hxx"
+#  include "itkVectorFieldPCA.hxx"
 #endif
 
 #endif
