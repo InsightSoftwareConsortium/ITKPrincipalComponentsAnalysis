@@ -1,6 +1,8 @@
 ITKPrincipalComponentsAnalysis
 ==============================
 
+.. image:: https://github.com/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis/workflows/Build,%20test,%20package/badge.svg
+
 .. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis.svg?style=shield
     :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis
 
