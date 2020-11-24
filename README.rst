@@ -3,21 +3,6 @@ ITKPrincipalComponentsAnalysis
 
 .. image:: https://github.com/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis/workflows/Build,%20test,%20package/badge.svg
 
-.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis.svg?style=shield
-    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis
-
-.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis.svg?branch=master
-    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis
-
-.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/itkrobot/itkprincipalcomponentsanalysis.svg
-    :target: https://ci.appveyor.com/project/itkrobot/itkprincipalcomponentsanalysis
-
-=========== =========== ===========
-   Linux      macOS       Windows
-=========== =========== ===========
-|CircleCI|  |TravisCI|  |AppVeyor|
-=========== =========== ===========
-
 Overview
 --------
 
@@ -40,6 +25,10 @@ module. To enable it, set::
   Module_PrincipalComponentsAnalysis:BOOL=ON
 
 in ITK's CMake build configuration.
+
+For Python packages::
+
+  pip install itk-principalcomponentsanalysis
 
 License
 -------
