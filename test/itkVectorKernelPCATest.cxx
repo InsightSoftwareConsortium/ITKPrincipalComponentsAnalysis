@@ -148,7 +148,7 @@ itkVectorKernelPCATest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(pcaCalc, VectorFieldPCA, Object);
 
   // Test exception when trying to compute before setting much of anything
-  ITK_TRY_EXPECT_EXCEPTION( pcaCalc->Compute() );
+  ITK_TRY_EXPECT_EXCEPTION(pcaCalc->Compute());
 
 
   // Set user variables
