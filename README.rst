@@ -6,15 +6,15 @@ ITKPrincipalComponentsAnalysis
 Overview
 --------
 
-An `ITK <http://itk.org>`_-based implementation of principal components analysis.
+An `ITK <https://itk.org>`_-based implementation of principal components analysis.
 
-For more information, see the `Insight Journal article <http://hdl.handle.net/10380/3386>`_::
+For more information, see the `Insight Journal article <https://hdl.handle.net/10380/3386>`_::
 
   Bowers M., Younes L.
   Principal Components Analysis of Scalar, Vector, and Mesh Vertex Data
   The Insight Journal. August. 2013.
-  http://hdl.handle.net/10380/3386
-  http://www.insight-journal.org/browse/publication/878
+  https://hdl.handle.net/10380/3386
+  https://www.insight-journal.org/browse/publication/878
 
 Installation
 ------------
