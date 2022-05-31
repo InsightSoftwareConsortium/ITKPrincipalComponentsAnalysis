@@ -25,7 +25,7 @@ setup(
                      'algorithms for use on scalar or vector data sets.\n'
                      'Please refer to:\n'
                      'M. Bowers and L. Younes, "Principal Components Analysis of Scalar, Vector, and Mesh Vertex Data.", '
-                     'Insight Journal, January-December 2012, http://hdl.handle.net/10380/3386',
+                     'Insight Journal, January-December 2012, https://hdl.handle.net/10380/3386',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",
