@@ -29,13 +29,13 @@ namespace itk
 template <typename TVectorFieldElementType,
           typename TPCType,
           typename TPointSetPixelType,
-          typename TPointSetCoordRepType,
+          typename TPointSetCoordinateType,
           typename KernelFunctionType,
           class TPointSetType>
 VectorFieldPCA<TVectorFieldElementType,
                TPCType,
                TPointSetPixelType,
-               TPointSetCoordRepType,
+               TPointSetCoordinateType,
                KernelFunctionType,
                TPointSetType>::VectorFieldPCA()
   : m_BasisVectors(BasisSetType::New())
@@ -45,14 +45,14 @@ VectorFieldPCA<TVectorFieldElementType,
 template <typename TVectorFieldElementType,
           typename TPCType,
           typename TPointSetPixelType,
-          typename TPointSetCoordRepType,
+          typename TPointSetCoordinateType,
           typename KernelFunctionType,
           class TPointSetType>
 void
 VectorFieldPCA<TVectorFieldElementType,
                TPCType,
                TPointSetPixelType,
-               TPointSetCoordRepType,
+               TPointSetCoordinateType,
                KernelFunctionType,
                TPointSetType>::Compute()
 {
@@ -146,14 +146,14 @@ VectorFieldPCA<TVectorFieldElementType,
 template <typename TVectorFieldElementType,
           typename TPCType,
           typename TPointSetPixelType,
-          typename TPointSetCoordRepType,
+          typename TPointSetCoordinateType,
           typename KernelFunctionType,
           class TPointSetType>
 void
 VectorFieldPCA<TVectorFieldElementType,
                TPCType,
                TPointSetPixelType,
-               TPointSetCoordRepType,
+               TPointSetCoordinateType,
                KernelFunctionType,
                TPointSetType>::ComputeMomentumSCP()
 {
@@ -230,14 +230,14 @@ VectorFieldPCA<TVectorFieldElementType,
 template <typename TVectorFieldElementType,
           typename TPCType,
           typename TPointSetPixelType,
-          typename TPointSetCoordRepType,
+          typename TPointSetCoordinateType,
           typename KernelFunctionType,
           class TPointSetType>
 void
 VectorFieldPCA<TVectorFieldElementType,
                TPCType,
                TPointSetPixelType,
-               TPointSetCoordRepType,
+               TPointSetCoordinateType,
                KernelFunctionType,
                TPointSetType>::KernelPCA()
 {
@@ -279,14 +279,14 @@ VectorFieldPCA<TVectorFieldElementType,
 template <typename TVectorFieldElementType,
           typename TPCType,
           typename TPointSetPixelType,
-          typename TPointSetCoordRepType,
+          typename TPointSetCoordinateType,
           typename KernelFunctionType,
           class TPointSetType>
 void
 VectorFieldPCA<TVectorFieldElementType,
                TPCType,
                TPointSetPixelType,
-               TPointSetCoordRepType,
+               TPointSetCoordinateType,
                KernelFunctionType,
                TPointSetType>::PrintSelf(std::ostream & os, Indent indent) const
 {

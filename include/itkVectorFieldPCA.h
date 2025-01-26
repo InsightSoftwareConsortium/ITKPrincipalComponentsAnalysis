@@ -104,10 +104,10 @@ private:
 template <typename TVectorFieldElementType,
           typename TPCType,
           typename TPointSetPixelType = float,
-          typename TPointSetCoordRepType = float,
-          typename KernelFunctionType = KernelFunctionBase<TPointSetCoordRepType>,
+          typename TPointSetCoordinateType = float,
+          typename KernelFunctionType = KernelFunctionBase<TPointSetCoordinateType>,
           class TPointSetType =
-            PointSet<TPointSetPixelType, 3, DefaultStaticMeshTraits<TPointSetPixelType, 3, 3, TPointSetCoordRepType>>>
+            PointSet<TPointSetPixelType, 3, DefaultStaticMeshTraits<TPointSetPixelType, 3, 3, TPointSetCoordinateType>>>
 class ITK_TEMPLATE_EXPORT VectorFieldPCA : public Object
 {
 public:
