@@ -144,7 +144,7 @@ public:
   /**
    * \brief Input PointSet dimension
    */
-  itkStaticConstMacro(InputMeshDimension, unsigned int, TPointSetType::PointDimension);
+  static constexpr unsigned int InputMeshDimension = TPointSetType::PointDimension;
 
   /** type for the vector fields. */
   using VectorFieldType = vnl_matrix<TVectorFieldElementType>;
